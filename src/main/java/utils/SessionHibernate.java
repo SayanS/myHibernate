@@ -11,7 +11,7 @@ public class SessionHibernate {
     private static SessionFactory buildSessionFactory() {
         try {
             Configuration configuration = new Configuration();
-            return configuration.configure(new File("hibernate.cfg.xml")).buildSessionFactory();
+            return configuration.configure(new File("hibernate1.cfg.xml")).buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);

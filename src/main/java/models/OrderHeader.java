@@ -2,44 +2,56 @@ package models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Transactional
+@Table(name = "OrderHeader", schema = "Orders")
 public class OrderHeader implements Serializable {
-    @Id
-    @GenericGenerator(name="generator", strategy="increment")
-    @GeneratedValue(generator="generator")
-    @Column(updatable = true)
     private Integer orderID=null;
     private String customerName;
     private String customerAddress;
+    private List<OrderDetails> orderDetails;
 
-    public OrderHeader(){}
+    public OrderHeader() {
+    }
 
+    @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
+    @Column(name="orderID", updatable = true)
     public Integer getOrderID() {
         return orderID;
     }
     public void setOrderID(Integer orderID) {
-        this.orderID=orderID;
+        this.orderID = orderID;
     }
-//    @Basic
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "orderHeader", cascade = {CascadeType.ALL})
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
+    }
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    @Column(name="customerName")
     public String getCustomerName() {
         return customerName;
     }
+
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
-//    @Basic
+    @Column(name="customerAddress")
     public String getCustomerAddress() {
         return customerAddress;
     }
+
     public void setCustomerAddress(String customerAddress) {
         this.customerAddress = customerAddress;
     }
