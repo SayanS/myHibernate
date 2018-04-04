@@ -12,17 +12,18 @@ public class MainTestHibernate {
 
     public static void main(String[] args) {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomerName("AppleBuyer233333");
+        orderHeader.setCustomerName("NEW");
         orderHeader.setCustomerAddress("Fesenko str.");
 
         List<OrderDetails> orderDetailsList=new ArrayList<>();
         OrderDetails orderDetails=new OrderDetails();
-        orderDetails.setProductName("Mobile Phone Apple333333");
-        orderDetails.setQty(1);
+        orderDetails.setProductName("GOODS");
+        orderDetails.setQty(10);
         orderDetails.setPrice(20000.00);
         orderDetailsList.add(orderDetails);
 
-        orderHeader.setOrderDetails(orderDetailsList);
+        orderDetailsList.forEach(details->orderHeader.addOrderDetails(details));
+
         dao.addEntity(orderHeader);
 
 //        READ
@@ -52,7 +53,7 @@ public class MainTestHibernate {
 //
 //        dao.deleteEntity(OrderHeader.class, "customerName", "Gepard4444444");
 //
-        dao.deleteEntity(OrderHeader.class, 21);
+        dao.deleteEntity(OrderHeader.class, 18);
 //
 //        orderHeaders = dao.getListEntity(OrderHeader.class);
 

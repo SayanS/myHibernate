@@ -8,25 +8,19 @@ import java.io.Serializable;
 
 @Entity
 @Transactional
-@Table(name = "OrderDetails", schema = "Orders")
 public class OrderDetails implements Serializable {
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
-    @Column(updatable = true)
     private Integer orderDetailsID=null;
-
-    @ManyToOne
-    @JoinColumn(name = "orderID", updatable = true)
     private OrderHeader orderHeader;
-
     private String productName;
     private Integer qty;
     private Double price;
 
     public OrderDetails() {    }
 
-    @Column(name = "orderDetailsID")
+
     public Integer getOrderDetailsID() {
         return orderDetailsID;
     }
@@ -35,15 +29,17 @@ public class OrderDetails implements Serializable {
         this.orderHeader = orderHeader;
     }
 
+    @ManyToOne( fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn
+//            (name = "OrderID", referencedColumnName = "orderHeader.orderID")
     public OrderHeader getOrderHeader() {
-        return orderHeader;
+        return this.orderHeader;
     }
 
     public void setOrderHeader(OrderHeader orderHeader) {
         this.orderHeader = orderHeader;
     }
 
-    @Column(name = "productName")
     public String getProductName() {
         return productName;
     }
@@ -52,7 +48,6 @@ public class OrderDetails implements Serializable {
         this.productName = productName;
     }
 
-    @Column(name = "qty")
     public Integer getQty() {
         return qty;
     }
@@ -61,7 +56,6 @@ public class OrderDetails implements Serializable {
         this.qty = qty;
     }
 
-    @Column(name = "price")
     public Double getPrice() {
         return price;
     }

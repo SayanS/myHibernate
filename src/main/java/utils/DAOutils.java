@@ -7,9 +7,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 public class DAOutils {
 
     public <T> List<T> getListEntity(Class<T> entityType) {
@@ -26,6 +28,7 @@ public class DAOutils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
             return null;
         } finally {
             session.close();
@@ -48,6 +51,7 @@ public class DAOutils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
             return null;
         } finally {
             session.close();
@@ -60,11 +64,13 @@ public class DAOutils {
         try {
             session = SessionHibernate.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
+            session.saveOrUpdate(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
             return null;
         } finally {
             session.close();
@@ -87,6 +93,7 @@ public class DAOutils {
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
         } finally {
             session.close();
         }
@@ -103,6 +110,7 @@ public class DAOutils {
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
         } finally {
             session.close();
         }
@@ -118,6 +126,7 @@ public class DAOutils {
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
             return false;
         } finally {
             session.close();
@@ -132,10 +141,11 @@ public class DAOutils {
             session = SessionHibernate.getSessionFactory().openSession();
             session.beginTransaction();
             session.createQuery("delete " + entity.getName() + " where " + column + " = :value")
-                    .setParameter("value",value).executeUpdate();
+                    .setParameter("value", value).executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Ups!!!!!!!!!!!!!!!!!!!!!!!!!1");
             return false;
         } finally {
             session.close();
@@ -149,7 +159,7 @@ public class DAOutils {
         try {
             session = SessionHibernate.getSessionFactory().openSession();
             session.beginTransaction();
-            T instance=session.load(entity, id);
+            T instance = session.load(entity, id);
             session.delete(instance);
             session.getTransaction().commit();
         } catch (Exception e) {

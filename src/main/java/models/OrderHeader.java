@@ -1,15 +1,13 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Transactional
-@Table(name = "OrderHeader", schema = "Orders")
 public class OrderHeader implements Serializable {
     private Integer orderID=null;
     private String customerName;
@@ -20,9 +18,10 @@ public class OrderHeader implements Serializable {
     }
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "increment")
-    @GeneratedValue(generator = "generator")
-    @Column(name="orderID", updatable = true)
+//    @GenericGenerator(name = "generator", strategy = "increment")
+//    @GeneratedValue(generator = "generator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="orderID",updatable = true)
     public Integer getOrderID() {
         return orderID;
     }
@@ -30,7 +29,7 @@ public class OrderHeader implements Serializable {
         this.orderID = orderID;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "orderHeader", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.ALL})
     public List<OrderDetails> getOrderDetails() {
         return orderDetails;
     }
@@ -38,7 +37,14 @@ public class OrderHeader implements Serializable {
         this.orderDetails = orderDetails;
     }
 
-    @Column(name="customerName")
+    public void addOrderDetails(OrderDetails orderDetails) {
+        orderDetails.setOrderHeader(this);
+        if(this.orderDetails==null){
+            this.orderDetails=new ArrayList<OrderDetails>();
+        }
+        this.orderDetails.add(orderDetails);
+    }
+
     public String getCustomerName() {
         return customerName;
     }
@@ -47,7 +53,6 @@ public class OrderHeader implements Serializable {
         this.customerName = customerName;
     }
 
-    @Column(name="customerAddress")
     public String getCustomerAddress() {
         return customerAddress;
     }
