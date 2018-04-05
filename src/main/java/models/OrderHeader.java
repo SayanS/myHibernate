@@ -21,7 +21,7 @@ public class OrderHeader implements Serializable {
 //    @GenericGenerator(name = "generator", strategy = "increment")
 //    @GeneratedValue(generator = "generator")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name="orderID",updatable = true)
+    @Column(name="orderID",updatable = true)
     public Integer getOrderID() {
         return orderID;
     }

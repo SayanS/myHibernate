@@ -8,30 +8,38 @@ import java.io.Serializable;
 
 @Entity
 @Transactional
+//@Table(name="OrderDetails")
 public class OrderDetails implements Serializable {
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     private Integer orderDetailsID=null;
-    private OrderHeader orderHeader;
     private String productName;
     private Integer qty;
     private Double price;
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "orderID", referencedColumnName = "orderID")
+    private OrderHeader orderHeader;
 
-    public OrderDetails() {    }
-
+    public OrderDetails() {}
 
     public Integer getOrderDetailsID() {
         return orderDetailsID;
     }
 
-    public void setOrderDetailsID(OrderHeader orderHeader) {
-        this.orderHeader = orderHeader;
+    public void setOrderDetailsID(Integer orderDetailsID) {
+        this.orderDetailsID = orderDetailsID;
     }
 
-    @ManyToOne( fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    @JoinColumn
-//            (name = "OrderID", referencedColumnName = "orderHeader.orderID")
+//    public Integer getOrderID() {
+//        return orderID;
+//    }
+//
+//    public void setOrderID(Integer orderID) {
+//        this.orderID = orderID;
+//    }
+
+
     public OrderHeader getOrderHeader() {
         return this.orderHeader;
     }

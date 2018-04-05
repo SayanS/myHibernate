@@ -65,7 +65,7 @@ public class DAOutils {
             session = SessionHibernate.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
-            session.saveOrUpdate(entity);
+            session.save(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
